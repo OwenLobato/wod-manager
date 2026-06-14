@@ -40,7 +40,7 @@ const hashResetToken = (rawToken: string): string =>
 /** Registers a new user and returns the user and a fresh token pair. */
 export const register = async ({ name, email, password }: RegisterInput): Promise<AuthResult> => {
   const existing = await User.findOne({ email });
-  if (existing) throw new AppError(409, 'Email already in use');
+  if (existing) throw new AppError(409, 'auth.errors.emailInUse');
 
   const hashed = await bcrypt.hash(password, 12);
   const user = await User.create({ name, email, password: hashed });
@@ -58,10 +58,10 @@ export const register = async ({ name, email, password }: RegisterInput): Promis
 /** Authenticates credentials and returns the user and a fresh token pair. */
 export const login = async ({ email, password }: LoginInput): Promise<AuthResult> => {
   const user = await User.findOne({ email }).select('+password');
-  if (!user) throw new AppError(401, 'Invalid credentials');
+  if (!user) throw new AppError(401, 'auth.errors.invalidCredentials');
 
   const match = await bcrypt.compare(password, user.password);
-  if (!match) throw new AppError(401, 'Invalid credentials');
+  if (!match) throw new AppError(401, 'auth.errors.invalidCredentials');
 
   const { accessToken, refreshToken } = signTokens(String(user._id), user.roles, user.tokenVersion);
 
@@ -79,12 +79,12 @@ export const refresh = async (refreshToken: string): Promise<AuthResult> => {
   try {
     payload = jwt.verify(refreshToken, env.JWT_REFRESH_SECRET) as RefreshPayload;
   } catch {
-    throw new AppError(401, 'Invalid or expired refresh token');
+    throw new AppError(401, 'auth.errors.invalidRefreshToken');
   }
 
   const user = await User.findById(payload.id);
   if (!user || user.tokenVersion !== payload.version) {
-    throw new AppError(401, 'Invalid refresh token');
+    throw new AppError(401, 'auth.errors.refreshRevoked');
   }
 
   const { accessToken, refreshToken: newRefreshToken } = signTokens(
@@ -134,7 +134,7 @@ export const resetPassword = async ({ token, password }: ResetPasswordInput): Pr
     passwordResetExpires: { $gt: new Date() },
   }).select('+passwordResetToken +passwordResetExpires');
 
-  if (!user) throw new AppError(400, 'Invalid or expired reset token');
+  if (!user) throw new AppError(400, 'auth.errors.invalidResetToken');
 
   user.password = await bcrypt.hash(password, 12);
   user.passwordResetToken = undefined;

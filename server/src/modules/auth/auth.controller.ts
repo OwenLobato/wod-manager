@@ -15,7 +15,7 @@ export const register = async (req: Request, res: Response, next: NextFunction):
   try {
     const { user, accessToken, refreshToken, cookieMaxAge } = await authService.register(req.body);
     res.cookie('refreshToken', refreshToken, { ...cookieOptions, maxAge: cookieMaxAge });
-    sendSuccess(res, 201, 'Account created successfully', { user, accessToken });
+    sendSuccess(res, 201, req.t('auth.register.success'), { user, accessToken });
   } catch (err) {
     next(err);
   }
@@ -26,7 +26,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
   try {
     const { user, accessToken, refreshToken, cookieMaxAge } = await authService.login(req.body);
     res.cookie('refreshToken', refreshToken, { ...cookieOptions, maxAge: cookieMaxAge });
-    sendSuccess(res, 200, 'Login successful', { user, accessToken });
+    sendSuccess(res, 200, req.t('auth.login.success'), { user, accessToken });
   } catch (err) {
     next(err);
   }
@@ -36,11 +36,11 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
 export const refresh = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.cookies?.refreshToken as string | undefined;
-    if (!token) throw new AppError(401, 'No refresh token provided');
+    if (!token) throw new AppError(401, 'auth.errors.noRefreshToken');
 
     const { user, accessToken, refreshToken, cookieMaxAge } = await authService.refresh(token);
     res.cookie('refreshToken', refreshToken, { ...cookieOptions, maxAge: cookieMaxAge });
-    sendSuccess(res, 200, 'Token refreshed', { user, accessToken });
+    sendSuccess(res, 200, req.t('auth.token.refreshed'), { user, accessToken });
   } catch (err) {
     next(err);
   }
@@ -51,7 +51,7 @@ export const logout = async (req: Request, res: Response, next: NextFunction): P
   try {
     await authService.logout(req.cookies?.refreshToken as string | undefined);
     res.clearCookie('refreshToken', cookieOptions);
-    sendSuccess(res, 200, 'Logged out successfully');
+    sendSuccess(res, 200, req.t('auth.logout.success'));
   } catch (err) {
     next(err);
   }
@@ -66,7 +66,7 @@ export const forgotPassword = async (
   try {
     const resetToken = await authService.forgotPassword(req.body.email);
     const data = env.NODE_ENV === 'production' ? undefined : { resetToken }; // exposed only outside production
-    sendSuccess(res, 200, 'If that email exists, a reset link has been sent', data);
+    sendSuccess(res, 200, req.t('auth.forgot.success'), data);
   } catch (err) {
     next(err);
   }
@@ -80,7 +80,7 @@ export const resetPassword = async (
 ): Promise<void> => {
   try {
     await authService.resetPassword(req.body);
-    sendSuccess(res, 200, 'Password updated successfully');
+    sendSuccess(res, 200, req.t('auth.reset.success'));
   } catch (err) {
     next(err);
   }
