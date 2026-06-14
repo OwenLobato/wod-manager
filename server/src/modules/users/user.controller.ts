@@ -15,3 +15,17 @@ export const getProfile = async (
     next(err);
   }
 };
+
+/** PATCH /users/me/preferences - updates the authenticated user's preferences. */
+export const updatePreferences = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const profile = await userService.updatePreferences(req.user!.id, req.body);
+    sendSuccess(res, 200, req.t('users.preferences.updated'), profile);
+  } catch (err) {
+    next(err);
+  }
+};
