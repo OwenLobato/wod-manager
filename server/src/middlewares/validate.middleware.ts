@@ -4,14 +4,20 @@ import { AppError } from '../utils/AppError.ts';
 
 type RequestSource = 'body' | 'query' | 'params';
 
-/** Validates and parse a request section (body/query/params) against a Zod schema; 422 on failure. */
+/** Validates and parses a request section (body/query/params) against a Zod schema; 422 on failure. */
 export const validate =
   (schema: ZodType, source: RequestSource = 'body') =>
   (req: Request, _res: Response, next: NextFunction): void => {
     const result = schema.safeParse(req[source]);
 
     if (!result.success) {
-      const errors = z.flattenError(result.error).fieldErrors as Record<string, string[]>;
+      // z.flattenError splits issues into two bucket:
+      // - fieldErrors: keyed by field, e.g. { email: ['Invalid email'] }.
+      // - formErrors:  top-level issues NOT tied to a field
+      const { fieldErrors, formErrors } = z.flattenError(result.error);
+      const errors: Record<string, string[]> = { ...(fieldErrors as Record<string, string[]>) };
+      if (formErrors.length > 0) errors._form = formErrors;
+
       return next(new AppError(422, 'validation.failed', { errors }));
     }
 
