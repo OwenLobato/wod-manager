@@ -2,6 +2,7 @@ import axios from 'axios';
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { getAccessToken, setAccessToken } from './session.ts';
 import { env } from '@/config/env.ts';
+import i18n from '@/locales/i18n.ts';
 import type { ApiResponse } from '@/types/api.ts';
 import { authDataSchema, type AuthData } from '@/features/auth/auth.types.ts';
 
@@ -9,10 +10,11 @@ const baseURL = env.API_URL;
 
 export const api = axios.create({ baseURL, withCredentials: true });
 
-// Attach the in-memory access token to every request.
+// Attach the in-memory access token + active language to every request.
 api.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
+  config.headers['Accept-Language'] = i18n.language; // so the server localizes its messages
   return config;
 });
 
