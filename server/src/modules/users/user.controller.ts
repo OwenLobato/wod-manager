@@ -10,7 +10,7 @@ export const getProfile = async (
 ): Promise<void> => {
   try {
     const profile = await userService.getProfile(req.user!.id);
-    sendSuccess(res, 200, 'Profile retrieved', profile);
+    sendSuccess(res, 200, req.t('users.profile.retrieved'), profile);
   } catch (err) {
     next(err);
   }
