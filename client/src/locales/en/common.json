@@ -1,0 +1,51 @@
+{
+  "app": {
+    "name": "WOD Manager"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "auth": {
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "loginTitle": "Log in",
+    "loginSubtitle": "Sign in to your WOD Manager account",
+    "registerTitle": "Create your account",
+    "registerSubtitle": "Start tracking your performance",
+    "forgotTitle": "Reset password",
+    "forgotSubtitle": "We'll send you a link to reset it",
+    "resetTitle": "New password",
+    "resetSubtitle": "Set a new password for your account",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "forgotPassword": "Forgot your password?",
+    "sendResetLink": "Send link",
+    "updatePassword": "Update password",
+    "backToLogin": "Back to log in",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "resetLinkSent": "If that email exists, we sent a reset link.",
+    "missingToken": "The reset token is missing or invalid."
+  },
+  "dashboard": {
+    "greeting": "Hi, {{name}}",
+    "subtitle": "Your WOD Manager dashboard."
+  },
+  "profile": {
+    "title": "Profile",
+    "back": "Back",
+    "view": "View profile",
+    "email": "Email",
+    "roles": "Roles",
+    "unit": "Unit"
+  },
+  "errors": {
+    "generic": "Something went wrong.",
+    "retry": "Retry"
+  }
+}

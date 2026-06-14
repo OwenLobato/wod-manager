@@ -1,0 +1,51 @@
+{
+  "app": {
+    "name": "WOD Manager"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Crear cuenta",
+    "logout": "Cerrar sesión",
+    "loginTitle": "Inicia sesión",
+    "loginSubtitle": "Ingresa a tu cuenta de WOD Manager",
+    "registerTitle": "Crea tu cuenta",
+    "registerSubtitle": "Empieza a registrar tu rendimiento",
+    "forgotTitle": "Recuperar contraseña",
+    "forgotSubtitle": "Te enviaremos un enlace para restablecerla",
+    "resetTitle": "Nueva contraseña",
+    "resetSubtitle": "Define una contraseña nueva para tu cuenta",
+    "name": "Nombre",
+    "email": "Correo",
+    "password": "Contraseña",
+    "newPassword": "Nueva contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "sendResetLink": "Enviar enlace",
+    "updatePassword": "Actualizar contraseña",
+    "backToLogin": "Volver a iniciar sesión",
+    "noAccount": "¿No tienes cuenta?",
+    "haveAccount": "¿Ya tienes cuenta?",
+    "resetLinkSent": "Si el correo existe, te enviamos un enlace para restablecer tu contraseña.",
+    "missingToken": "Falta el token de restablecimiento o no es válido."
+  },
+  "dashboard": {
+    "greeting": "Hola, {{name}}",
+    "subtitle": "Tu panel de WOD Manager."
+  },
+  "profile": {
+    "title": "Perfil",
+    "back": "Volver",
+    "view": "Ver perfil",
+    "email": "Correo",
+    "roles": "Roles",
+    "unit": "Unidad"
+  },
+  "errors": {
+    "generic": "Algo salió mal.",
+    "retry": "Reintentar"
+  }
+}
