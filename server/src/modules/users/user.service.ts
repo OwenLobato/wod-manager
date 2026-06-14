@@ -34,7 +34,7 @@ export const updatePreferences = async (
   const user = await User.findByIdAndUpdate(
     userId,
     { $set: update },
-    { new: true, runValidators: true }
+    { returnDocument: 'after', runValidators: true }
   );
   if (!user) throw new AppError(404, 'users.errors.notFound');
 
