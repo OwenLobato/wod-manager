@@ -12,7 +12,7 @@ export const validate =
 
     if (!result.success) {
       const errors = z.flattenError(result.error).fieldErrors as Record<string, string[]>;
-      return next(new AppError(422, 'Validation failed', errors));
+      return next(new AppError(422, 'validation.failed', { errors }));
     }
 
     if (source === 'query') {

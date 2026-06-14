@@ -12,7 +12,7 @@ interface AccessTokenPayload {
 export const authenticate = (req: Request, _res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) {
-    return next(new AppError(401, 'Authentication required'));
+    return next(new AppError(401, 'auth.errors.required'));
   }
 
   const token = authHeader.slice(7); // drop the "Bearer " prefix
@@ -22,7 +22,7 @@ export const authenticate = (req: Request, _res: Response, next: NextFunction): 
     req.user = { id: payload.id, roles: payload.roles };
     next();
   } catch {
-    next(new AppError(401, 'Invalid or expired token'));
+    next(new AppError(401, 'auth.errors.invalidToken'));
   }
 };
 
@@ -30,8 +30,8 @@ export const authenticate = (req: Request, _res: Response, next: NextFunction): 
 export const requireRole =
   (...roles: string[]) =>
   (req: Request, _res: Response, next: NextFunction): void => {
-    if (!req.user) return next(new AppError(401, 'Authentication required'));
+    if (!req.user) return next(new AppError(401, 'auth.errors.required'));
     const allowed = roles.some((role) => req.user!.roles.includes(role));
-    if (!allowed) return next(new AppError(403, 'Insufficient permissions'));
+    if (!allowed) return next(new AppError(403, 'auth.errors.insufficientPermissions'));
     next();
   };
