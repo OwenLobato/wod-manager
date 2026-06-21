@@ -26,12 +26,13 @@ export const authenticate = (req: Request, _res: Response, next: NextFunction): 
   }
 };
 
-/** Allows the request only if req.user holds one of the given roles. */
+/** Allows the request only if req.user holds one of the given roles. Admin always passes. */
 export const requireRole =
   (...roles: string[]) =>
   (req: Request, _res: Response, next: NextFunction): void => {
     if (!req.user) return next(new AppError(401, 'auth.errors.required'));
-    const allowed = roles.some((role) => req.user!.roles.includes(role));
+    const allowed =
+      req.user.roles.includes('admin') || roles.some((role) => req.user!.roles.includes(role));
     if (!allowed) return next(new AppError(403, 'auth.errors.insufficientPermissions'));
     next();
   };

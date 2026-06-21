@@ -9,6 +9,14 @@ const toProfileDTO = (user: IUser) => ({
   email: user.email,
   roles: user.roles,
   preferences: user.preferences,
+  box: user.box ? String(user.box) : null,
+  gender: user.gender,
+  birthDate: user.birthDate,
+  isPublic: user.isPublic ?? true,
+  avatarUrl: user.avatarUrl,
+  bio: user.bio,
+  organizerStatus: user.organizerStatus ?? 'none',
+  plan: user.plan ?? 'free',
 });
 
 export type ProfileDTO = ReturnType<typeof toProfileDTO>;
