@@ -49,3 +49,9 @@ cd client && npm run dev     # SPA  → http://localhost:5173
 | `npm run lint` / `lint:fix` | ESLint |
 | `npm run format` | Prettier |
 | `npm test` / `test:coverage` | Vitest |
+
+## Licencia
+
+© 2026 Owen Lobato. Todos los derechos reservados.
+
+Distribuido bajo la **PolyForm Noncommercial License 1.0.0**: puedes ver, estudiar y usar el código con fines **no comerciales**; el uso comercial queda reservado al titular. Consulta el archivo [LICENSE](LICENSE).
